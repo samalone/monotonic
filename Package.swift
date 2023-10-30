@@ -18,7 +18,7 @@ let package = Package(
                     targets: ["Server", "Monotonic"])
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-distributed-actors/", branch: "main"),
+//        .package(url: "https://github.com/apple/swift-distributed-actors/", branch: "main"),
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.12.0"),
         .package(url: "https://github.com/apple/swift-nio-transport-services.git", from: "1.0.0")
     ],
