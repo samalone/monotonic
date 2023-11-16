@@ -1,4 +1,5 @@
 import Distributed
+import WebSocketActors
 
 public distributed actor Clicker {
     public typealias ActorSystem = WebSocketActorSystem
