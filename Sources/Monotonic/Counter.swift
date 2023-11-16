@@ -9,57 +9,58 @@ public distributed actor Counter {
     public typealias ActorSystem = WebSocketActorSystem
     
     var numberOfClicks = 0
-    var clickers: Set<Clicker> = []
+    var monitors: Set<CountMonitor> = []
     
     public init(actorSystem: ActorSystem, numberOfClicks: Int = 0) {
+        actorSystem.logger.trace("Counter.init")
         self.actorSystem = actorSystem
         self.numberOfClicks = numberOfClicks
-        log("Counter", "init")
     }
     
     deinit {
-        log("Counter", "deinit")
+        actorSystem.logger.trace("Counter.deinit")
     }
     
-    public distributed func register(clicker: Clicker) async {
-        log("Counter", "register \(clicker.id)")
-        clickers.insert(clicker)
+    public distributed func register(monitor: CountMonitor) async {
+        actorSystem.logger.trace("Counter.register(\(monitor.id))")
+        monitors.insert(monitor)
         
         // Immediately broadcast to the new clicker so they have the current value.
         do {
-            try await clicker.counterChanged(clicks: numberOfClicks)
+            try await monitor.counterChanged(clicks: numberOfClicks)
         }
         catch {
-            print("Broadcast error: \(error)")
+            actorSystem.logger.error("Broadcast error: \(error)")
         }
     }
     
-    public distributed func unregister(clicker: Clicker) {
-        log("Counter", "unregister \(clicker.id)")
-        clickers.remove(clicker)
+    public distributed func unregister(monitor: CountMonitor) {
+        actorSystem.logger.trace("Counter.unregister(\(monitor.id))")
+        monitors.remove(monitor)
     }
     
     public distributed func click() async {
-        log("Counter", "received click")
+        actorSystem.logger.trace("Counter.click")
         numberOfClicks += 1
         await broadcastClicks(clicks: numberOfClicks)
     }
     
     func broadcastClicks(clicks: Int) async {
-        log("Counter", "broadcasting to \(clickers.count) clickers")
+        actorSystem.logger.trace("broadcasting to \(monitors.count) monitors")
         await withTaskGroup(of: Void.self) { group in
-            for clicker in clickers {
+            let logger = self.actorSystem.logger
+            for monitor in monitors {
                 group.addTask {
                     do {
-                        try await clicker.counterChanged(clicks: clicks)
+                        try await monitor.counterChanged(clicks: clicks)
                     }
                     catch {
-                        print("Broadcast error: \(error)")
+                        logger.error("Broadcast error: \(error)")
                     }
                 }
             }
         }
-        log("Counter", "broadcast complete")
+        actorSystem.logger.trace("broadcast complete")
     }
     
 }

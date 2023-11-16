@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Monotonic
+import WebSocketActors
 
 /// Shared instance of the sample websocket actor system used in this step.
 ///
@@ -20,19 +21,14 @@ import Monotonic
 /// connection establishment.
 //let webSocketSystem = try! WebSocketActorSystem(mode: .clientFor(host: "localhost", port: 8888))
 
-extension WebSocketActorSystem {
-    static let shared = try! WebSocketActorSystem(mode: .clientFor(host: "ravana.local", port: 8888))
-}
 
 @main
 struct MonotonicAppApp: App {
-    let sharedCounter: Counter
     @State var model: Model
     
+    @MainActor
     init() {
-        let opponentID = WebSocketActorSystem.shared.sharedCounterID()
-        sharedCounter = try! Counter.resolve(id: opponentID, using: WebSocketActorSystem.shared)
-        model = Model(counter: sharedCounter)
+        model = Model()
     }
     
     var body: some Scene {

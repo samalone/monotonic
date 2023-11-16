@@ -1,3 +1,11 @@
+//
+//  CountMonitor.swift
+//
+//
+//  Created by Stuart A. Malone on 11/16/23.
+//
+
+import Foundation
 import Distributed
 import WebSocketActors
 
@@ -5,20 +13,16 @@ public protocol LocalModel {
     func set(count: Int) async
 }
 
-public distributed actor Clicker {
+/// A distributed actor that receives an updated count from the server and
+/// updates the local model on the main thread.
+public distributed actor CountMonitor {
     public typealias ActorSystem = WebSocketActorSystem
     
-    var counter: Counter
     var model: LocalModel
     
-    public init(actorSystem: ActorSystem, counter: Counter, model: LocalModel) {
+    public init(actorSystem: ActorSystem, model: LocalModel) {
         self.actorSystem = actorSystem
-        self.counter = counter
         self.model = model
-    }
-    
-    public distributed func click() async throws {
-        try await counter.click()
     }
     
     public distributed func counterChanged(clicks: Int) async {
