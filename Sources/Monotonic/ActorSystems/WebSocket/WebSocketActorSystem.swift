@@ -246,12 +246,14 @@ public final class WebSocketActorSystem: DistributedActorSystem,
         guard id.protocol == "ws" else {
             return nil
         }
-        guard id.host == self.host else {
-            return nil
-        }
-        guard id.port == self.port else {
-            return nil
-        }
+        /// Theses checks were in the original sample code, but don't account for a server
+        /// having multiple names and/or proxies that might rebind port numbers..
+//        guard id.host == self.host else {
+//            return nil
+//        }
+//        guard id.port == self.port else {
+//            return nil
+//        }
 
         guard let resolved = managedActors[id] else {
             log("resolve", "here")
@@ -291,8 +293,12 @@ extension WebSocketActorSystem {
         .init(protocol: "ws", host: host, port: port, id: "bot-\(player.id)")
     }
     
-    public func isBotID(_ id: ActorID) -> Bool {
-        return true
+    public func sharedCounterID() -> ActorIdentity {
+        .init(protocol: "ws", host: host, port: port, id: "shared-counter")
+    }
+    
+    public func isSharedCounterID(_ id: ActorID) -> Bool {
+        return id.id == "shared-counter"
     }
 
     public func registerOnDemandResolveHandler(resolveOnDemand: @escaping (ActorID) -> (any DistributedActor)?) {

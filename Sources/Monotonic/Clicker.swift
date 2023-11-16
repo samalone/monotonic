@@ -1,27 +1,26 @@
 import Distributed
 
+public protocol LocalModel {
+    func set(count: Int) async
+}
+
 public distributed actor Clicker {
     public typealias ActorSystem = WebSocketActorSystem
     
     var counter: Counter
-    var _clicks = 0
+    var model: LocalModel
     
-    public distributed var clicks: Int {
-        _clicks
-    }
-    
-    public init(actorSystem: ActorSystem, counter: Counter) async throws {
+    public init(actorSystem: ActorSystem, counter: Counter, model: LocalModel) {
         self.actorSystem = actorSystem
         self.counter = counter
-        try await counter.register(clicker: self)
+        self.model = model
     }
     
     public distributed func click() async throws {
         try await counter.click()
     }
     
-    public distributed func counterChanged(clicks: Int) {
-        _clicks = clicks
+    public distributed func counterChanged(clicks: Int) async {
+        await model.set(count: clicks)
     }
-    
 }

@@ -2,6 +2,14 @@ import XCTest
 import Distributed
 @testable import Monotonic
 
+class TestModel: LocalModel {
+    var count: Int = 0
+    
+    func set(count: Int) async {
+        self.count = count
+    }
+}
+
 final class MonotonicTests: XCTestCase {
     func testExample() async throws {
         // XCTest Documentation
@@ -15,20 +23,19 @@ final class MonotonicTests: XCTestCase {
         // Create a Counter that will store the number of clicks.
         let counter = Counter(actorSystem: actorSystem)
         
-        let clicker1 = try await Clicker(actorSystem: actorSystem, counter: counter)
-        let clicker2 = try await Clicker(actorSystem: actorSystem, counter: counter)
+        let model1 = TestModel()
+        let model2 = TestModel()
+        
+        let clicker1 = try await Clicker(actorSystem: actorSystem, counter: counter, model: model1)
+        let clicker2 = try await Clicker(actorSystem: actorSystem, counter: counter, model: model2)
         
         try await clicker1.click()
-        let c11 = try await clicker1.clicks
-        XCTAssertEqual(c11, 1)
-        let c21 = try await clicker1.clicks
-        XCTAssertEqual(c21, 1)
+        XCTAssertEqual(model1.count, 1)
+        XCTAssertEqual(model2.count, 1)
         
         try await clicker2.click()
-        let c12 = try await clicker1.clicks
-        XCTAssertEqual(c12, 2)
-        let c22 = try await clicker1.clicks
-        XCTAssertEqual(c22, 2)
+        XCTAssertEqual(model1.count, 2)
+        XCTAssertEqual(model2.count, 2)
         
     }
 }

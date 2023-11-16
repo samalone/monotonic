@@ -24,12 +24,12 @@ import Monotonic
 struct Server {
     
     static func main() {
-        let system = try! WebSocketActorSystem(mode: .serverOnly(host: "localhost", port: 8888))
+        let system = try! WebSocketActorSystem(mode: .serverOnly(host: "0.0.0.0", port: 8888))
         
         system.registerOnDemandResolveHandler { id in
             // We create new BotPlayers "ad-hoc" as they are requested for.
             // Subsequent resolves are able to resolve the same instance.
-            if system.isBotID(id) {
+            if system.isSharedCounterID(id) {
                 return system.makeActorWithID(id) {
                     Counter(actorSystem: system)
                 }
