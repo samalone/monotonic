@@ -1,4 +1,9 @@
 import Distributed
+import WebSocketActors
+
+extension ActorIdentity {
+    public static let counter: ActorIdentity = "counter"
+}
 
 public distributed actor Counter {
     public typealias ActorSystem = WebSocketActorSystem

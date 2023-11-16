@@ -1,4 +1,5 @@
 import Distributed
+import WebSocketActors
 
 public protocol LocalModel {
     func set(count: Int) async

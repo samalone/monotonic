@@ -19,12 +19,21 @@
       }
     },
     {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log.git",
+      "state" : {
+        "revision" : "532d8b529501fb73a2455b179e0bbb6d49b652ed",
+        "version" : "1.5.3"
+      }
+    },
+    {
       "identity" : "swift-nio",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio.git",
       "state" : {
-        "revision" : "9497e442486aab515c8486ef8153a506f93a5032",
-        "version" : "2.61.0"
+        "revision" : "853522d90871b4b63262843196685795b5008c46",
+        "version" : "2.61.1"
       }
     },
     {
@@ -34,6 +43,15 @@
       "state" : {
         "revision" : "ebf8b9c365a6ce043bf6e6326a04b15589bd285e",
         "version" : "1.20.0"
+      }
+    },
+    {
+      "identity" : "websocket-actor-system",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/samalone/websocket-actor-system.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "5057383ae483285374e3e4c10f9d8e079414a064"
       }
     }
   ],

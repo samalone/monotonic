@@ -8,6 +8,7 @@
 import Foundation
 import Distributed
 import Monotonic
+import WebSocketActors
 
 //print("Foo")
 //
@@ -23,29 +24,26 @@ import Monotonic
 @main
 struct Server {
     
-    static func main() {
-        let system = try! WebSocketActorSystem(mode: .serverOnly(host: "0.0.0.0", port: 8888))
+    static func main() async throws {
+        let address = ServerAddress(scheme: .insecure, host: "localhost", port: 8888)
+        let system = try! await WebSocketActorSystem(mode: .server(at: address))
         
         system.registerOnDemandResolveHandler { id in
             // We create new BotPlayers "ad-hoc" as they are requested for.
             // Subsequent resolves are able to resolve the same instance.
-            if system.isSharedCounterID(id) {
-                return system.makeActorWithID(id) {
-                    Counter(actorSystem: system)
-                }
-//                return system.makeActorWithID(id) {
-//                    OnlineBotPlayer(team: .rodents, actorSystem: system)
-//                }
+            return system.makeActor(id: id) {
+                Counter(actorSystem: system)
             }
-            
-            return nil // don't resolve on-demand
         }
         
+        let port = try await system.localPort()
+        
         print("========================================================")
-        print("=== TicTacFish Server Running on: ws://\(system.host):\(system.port) ==")
+        print("=== TicTacFish Server Running on: ws://\(port) ==")
         print("========================================================")
         
-        Thread.sleep(forTimeInterval: 100_000)
+
+        try await Task.sleep(for: .seconds(1_000_000))
         print("Done.")
     }
 }
