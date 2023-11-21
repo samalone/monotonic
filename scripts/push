@@ -1,0 +1,19 @@
+#!/bin/bash -xe
+version=`scripts/version`
+
+if [[ `uname -m` != "x86_64" ]]
+then
+    echo "Only push amd64 images"
+    exit 0
+fi
+
+op read "op://llama-infrastructure/github-packages/token" | docker login -u samalone --password-stdin ghcr.io
+
+docker push llamagraphics/monotonic:$version
+docker push ghcr.io/samalone/monotonic:$version
+
+if [[ `git branch --show-current` == 'main' ]]
+then
+    docker push llamagraphics/monotonic:latest
+    docker push ghcr.io/samalone/monotonic:latest
+fi

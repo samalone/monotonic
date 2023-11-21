@@ -1,0 +1,15 @@
+#!/bin/bash -xe
+
+version=`scripts/version`
+revision=`git rev-parse HEAD`
+
+tags=(--tag llamagraphics/monotonic:$version --tag ghcr.io/samalone/monotonic:$version)
+if [[ $version != "dev" ]]
+then
+    tags+=(--tag llamagraphics/monotonic:latest --tag ghcr.io/samalone/monotonic:latest)
+fi
+
+DOCKER_BUILDKIT=1 docker build \
+    --build-arg REVISION=$revision \
+    --build-arg VERSION=$version \
+    ${tags[@]} .

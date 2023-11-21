@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:Monotonic}",
+            "name": "Debug Server",
+            "program": "${workspaceFolder:Monotonic}/.build/debug/Server",
+            "preLaunchTask": "swift: Build Debug Server"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:Monotonic}",
+            "name": "Release Server",
+            "program": "${workspaceFolder:Monotonic}/.build/release/Server",
+            "preLaunchTask": "swift: Build Release Server"
+        }
+    ]
+}
