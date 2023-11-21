@@ -51,7 +51,7 @@ let package = Package(
             // Works around bug in Swift on mac. See https://bugs.swift.org/browse/SR-14907
             swiftSettings: [
                 .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"])
-            ]),
+            ]
         ),
     ]
 )
