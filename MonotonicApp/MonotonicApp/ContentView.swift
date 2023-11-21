@@ -13,10 +13,15 @@ struct ContentView: View {
     var model: Model
     
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
+            Text(model.statusMessage)
+            
+            Text(model.errorMessage)
+                .foregroundColor(.red)
+            
             Text(model.count.description)
             
-            Button("Click") {
+            Button("Increment") {
                 Task {
                     try? await model.click()
                 }
@@ -30,7 +35,7 @@ struct ContentView: View {
         }
     }
 }
-//
-//#Preview {
-//    ContentView()
-//}
+
+#Preview {
+    ContentView(model: Model())
+}

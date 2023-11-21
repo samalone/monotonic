@@ -8,13 +8,20 @@ extension ActorIdentity {
 public distributed actor Counter {
     public typealias ActorSystem = WebSocketActorSystem
     
-    var numberOfClicks = 0
+    var _numberOfClicks = 0
     var monitors: Set<CountMonitor> = []
+    
+    
+    public distributed var numberOfClicks: Int {
+        get {
+            _numberOfClicks
+        }
+    }
     
     public init(actorSystem: ActorSystem, numberOfClicks: Int = 0) {
         actorSystem.logger.trace("Counter.init")
         self.actorSystem = actorSystem
-        self.numberOfClicks = numberOfClicks
+        self._numberOfClicks = numberOfClicks
     }
     
     deinit {
@@ -41,8 +48,12 @@ public distributed actor Counter {
     
     public distributed func click() async {
         actorSystem.logger.trace("Counter.click")
-        numberOfClicks += 1
+        _numberOfClicks += 1
         await broadcastClicks(clicks: numberOfClicks)
+    }
+    
+    public distributed func currentCount() -> Int {
+        return numberOfClicks
     }
     
     func broadcastClicks(clicks: Int) async {

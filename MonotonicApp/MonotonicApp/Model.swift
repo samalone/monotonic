@@ -16,6 +16,8 @@ final class Model: LocalModel {
     var _system: WebSocketActorSystem?
     var _counter: Counter?
     var _monitor: CountMonitor?
+    var errorMessage: String = ""
+    var statusMessage: String = "Connecting..."
     
     var system: WebSocketActorSystem {
         get async {
@@ -24,6 +26,7 @@ final class Model: LocalModel {
             }
             let system = try! await WebSocketActorSystem(mode: .client(of: ServerAddress(scheme: .insecure, host: "ravana.local", port: 8888)))
             _system = system
+            system.monitor = self.updateConnectionStatus(status:)
             return system
         }
     }
@@ -63,5 +66,30 @@ final class Model: LocalModel {
     
     func register() async throws {
         try await counter.register(monitor: monitor)
+    }
+    
+    func updateConnectionStatus(status: ResilientTask.Status) async {
+        switch status {
+        case .initializing:
+            statusMessage = "Connecting..."
+        case .running:
+            statusMessage = "Connected"
+            errorMessage = ""
+            
+            // Immediately request the current count, in case it has
+            // changed since we were last connected.
+            if let clicks = try? await counter.numberOfClicks {
+                self.count = clicks
+            }
+        case .cancelled:
+            statusMessage = "Done"
+            errorMessage = ""
+        case .waiting:
+            statusMessage = "Waiting to reconnect..."
+            break
+        case .failed(let error):
+            statusMessage = "Connection lost"
+            errorMessage = error.localizedDescription
+        }
     }
 }

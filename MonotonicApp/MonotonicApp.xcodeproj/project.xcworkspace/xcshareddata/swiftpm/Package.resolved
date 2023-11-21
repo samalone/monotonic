@@ -6,7 +6,7 @@
       "location" : "https://github.com/samalone/Monotonic.git",
       "state" : {
         "branch" : "main",
-        "revision" : "baff5dbba6a62511593eb0ccc5bf49405919dcf9"
+        "revision" : "3f16c88f42d35c75e04c225348863d93a36e5d45"
       }
     },
     {
@@ -16,6 +16,15 @@
       "state" : {
         "revision" : "a50f5f4d1c0446d36b2bd3b157f7f845e1f0133e",
         "version" : "1.0.1"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser",
+      "state" : {
+        "revision" : "8f4d2753f0e4778c76d5f05ad16c74f707390531",
+        "version" : "1.2.3"
       }
     },
     {
@@ -69,7 +78,7 @@
       "location" : "https://github.com/samalone/websocket-actor-system.git",
       "state" : {
         "branch" : "main",
-        "revision" : "0a2123abb99b8a1b685ccd26fcca3f3f6cb56406"
+        "revision" : "bf6eae961c7423a00595d2ebbb5e0b539c308977"
       }
     }
   ],
