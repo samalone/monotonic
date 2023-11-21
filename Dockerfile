@@ -56,6 +56,8 @@ ARG EXECUTABLE_NAME=Server
 LABEL org.opencontainers.image.revision=$REVISION
 LABEL org.opencontainers.image.version=$VERSION
 LABEL org.opencontainers.image.vendor="Llamagraphics, Inc."
+LABEL org.opencontainers.image.source=https://github.com/samalone/monotonic
+LABEL org.opencontainers.image.description="A sample project that shows how to use WebSocketActors to create a simple client/server application using Swift distributed actors."
 
 # Make sure all system packages are up to date, and install only essential packages.
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
