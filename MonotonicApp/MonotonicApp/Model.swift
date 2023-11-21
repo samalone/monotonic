@@ -45,7 +45,7 @@ final class Model: LocalModel {
                 return monitor
             }
             let system = await system
-            let monitor = system.makeActor {
+            let monitor = system.makeLocalActor {
                 CountMonitor(actorSystem: system, model: self)
             }
             _monitor = monitor

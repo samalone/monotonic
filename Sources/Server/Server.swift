@@ -20,7 +20,7 @@ struct Server {
         
         let address = ServerAddress(scheme: .insecure, host: "0.0.0.0", port: 8888)
         let system = try! await WebSocketActorSystem(mode: .server(at: address), logger: logger)
-        _ = system.makeActor(id: .counter) {
+        _ = system.makeLocalActor(id: .counter) {
             Counter(actorSystem: system)
         }
 

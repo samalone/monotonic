@@ -45,7 +45,7 @@ final class MonotonicTests: XCTestCase {
     }
     
     func testRemote() async throws {
-        let counter = server.makeActor(id: .counter) {
+        let counter = server.makeLocalActor(id: .counter) {
             Counter(actorSystem: server)
         }
         
