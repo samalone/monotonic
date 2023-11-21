@@ -18,9 +18,6 @@ let package = Package(
                     targets: ["Server", "Monotonic"])
     ],
     dependencies: [
-//        .package(url: "https://github.com/apple/swift-distributed-actors/", branch: "main"),
-//        .package(url: "https://github.com/apple/swift-nio.git", from: "2.12.0"),
-//        .package(url: "https://github.com/apple/swift-nio-transport-services.git", from: "1.0.0"),
         .package(url: "https://github.com/samalone/websocket-actor-system.git", branch: "main"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.0"),
     ],
@@ -30,25 +27,26 @@ let package = Package(
         .target(
             name: "Monotonic",
             dependencies: [
-                // These dependencies are used by the WebSocketActorSystem
-//                .product(name: "NIO", package: "swift-nio"),
-//                .product(name: "NIOHTTP1", package: "swift-nio"),
-//                .product(name: "NIOWebSocket", package: "swift-nio"),
-//                .product(name: "NIOTransportServices", package: "swift-nio-transport-services"),
                 .product(name: "WebSocketActors", package: "websocket-actor-system"),
-            ]),
+            ],
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"])
+            ]
+        ),
         .executableTarget(
             name: "Server",
             dependencies: [
                 "Monotonic",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
 //                .product(name: "DistributedCluster", package: "swift-distributed-actors"),
+            ],
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"])
             ]
         ),
         .testTarget(
             name: "MonotonicTests",
             dependencies: ["Monotonic"],
-            // Works around bug in Swift on mac. See https://bugs.swift.org/browse/SR-14907
             swiftSettings: [
                 .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"])
             ]
