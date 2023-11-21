@@ -1,6 +1,8 @@
 # Monotonic
 
 ![GitHub tag (with filter)](https://img.shields.io/github/v/tag/samalone/monotonic?label=version)
+[![macOS tests](https://github.com/samalone/monotonic/actions/workflows/test-macos.yml/badge.svg)](https://github.com/samalone/monotonic/actions/workflows/test-macos.yml)
+[![Ubuntu tests](https://github.com/samalone/monotonic/actions/workflows/test-ubuntu.yml/badge.svg)](https://github.com/samalone/monotonic/actions/workflows/test-ubuntu.yml)
 
 A sample project that shows how to use
 [WebSocketActors](https://github.com/samalone/websocket-actor-system) to create
@@ -16,14 +18,9 @@ This repository includes:
 - A Swift Package Manager library in `Sources/Monotonic` that contains the
   distributed actors that are shared by the client and the server.
 - A Swift Package Manager command-line executable in `Sources/Server` that
-  implements the server.
+  implements the server. The server runs on macOS and Linux.
 - Scripts to build a Docker image from the server executable.
 - An iOS client application in `MonotonicApp` that communicates with the server.
-
-Keeping the library, server, and client code in the same repository makes it
-easy to ensure that the client and server stay in sync. Use an Xcode workspace
-to load the Swift package and the Xcode project at the same time. I recommend
-this structure for all Swift client/server applications.
 
 ## Implementation notes
 
@@ -39,16 +36,16 @@ code are stored in the same repository and built together. To do this in Xcode:
 2. Publish this package to some place accessible to the Swift Package Manager,
    like Github.
 3. Create an Xcode project for your iOS client.
-4. Add a package dependency from your iOS client application to your Swift
-   package.
+4. Add a package dependency from your iOS client application to the library in
+   your Swift package.
 5. Move the folder containing your Xcode project into your package folder.
 6. Create an empty Xcode workspace in the package folder.
 7. Add both the package folder and the Xcode project to the workspace.
 
-From then on, do all of your development using the workspace. You can even run
-and debug the client and server simultaneously in Xcode by switching to the
-server schema, running the server, switching to the client schema, and running
-the client.
+From then on, do all of your development using the workspace. All distributed
+actor code should go in the shared library. You can run and debug the client and
+server simultaneously in Xcode by switching to the server schema, running the
+server, switching to the client schema, and running the client.
 
 ### Isolating client and server code
 
