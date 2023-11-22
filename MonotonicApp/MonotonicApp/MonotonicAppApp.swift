@@ -24,12 +24,12 @@ import WebSocketActors
 @main
 struct MonotonicAppApp: App {
     @State var model: Model
-    
+
     @MainActor
     init() {
         model = Model()
     }
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView(model: model)

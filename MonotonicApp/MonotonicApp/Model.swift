@@ -18,7 +18,7 @@ final class Model: LocalModel {
     var _monitor: CountMonitor?
     var errorMessage: String = ""
     var statusMessage: String = "Connecting..."
-    
+
     var system: WebSocketActorSystem {
         get async {
             if let system = _system {
@@ -30,7 +30,7 @@ final class Model: LocalModel {
             return system
         }
     }
-    
+
     var counter: Counter {
         get async {
             if let counter = _counter {
@@ -41,7 +41,7 @@ final class Model: LocalModel {
             return counter
         }
     }
-    
+
     var monitor: CountMonitor {
         get async {
             if let monitor = _monitor {
@@ -55,19 +55,19 @@ final class Model: LocalModel {
             return monitor
         }
     }
-    
+
     func set(count: Int) {
         self.count = count
     }
-    
+
     func click() async throws {
         try await counter.click()
     }
-    
+
     func register() async throws {
         try await counter.register(monitor: monitor)
     }
-    
+
     func updateConnectionStatus(status: ResilientTask.Status) async {
         switch status {
         case .initializing:
@@ -75,7 +75,7 @@ final class Model: LocalModel {
         case .running:
             statusMessage = "Connected"
             errorMessage = ""
-            
+
             // Immediately request the current count, in case it has
             // changed since we were last connected.
             if let clicks = try? await counter.numberOfClicks {

@@ -11,16 +11,16 @@ import SwiftUI
 @MainActor
 struct ContentView: View {
     var model: Model
-    
+
     var body: some View {
         VStack(spacing: 20) {
             Text(model.statusMessage)
-            
+
             Text(model.errorMessage)
                 .foregroundColor(.red)
-            
+
             Text(model.count.description)
-            
+
             Button("Increment") {
                 Task {
                     try? await model.click()

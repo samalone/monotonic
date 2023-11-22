@@ -1,0 +1,6 @@
+disabled_rules:
+  - identifier_name
+  - statement_position
+  - trailing_comma
+force_try: warning
+
