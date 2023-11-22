@@ -26,7 +26,7 @@ final class Model: LocalModel {
             }
             let system = try! await WebSocketActorSystem(mode: .client(of: ServerAddress(scheme: .insecure, host: "ravana.local", port: 8888)))
             _system = system
-            system.monitor = self.updateConnectionStatus(status:)
+            system.monitor = updateConnectionStatus(status:)
             return system
         }
     }
@@ -36,7 +36,7 @@ final class Model: LocalModel {
             if let counter = _counter {
                 return counter
             }
-            let counter = try! Counter.resolve(id: .counter, using: await system)
+            let counter = try! await Counter.resolve(id: .counter, using: system)
             _counter = counter
             return counter
         }
@@ -79,14 +79,13 @@ final class Model: LocalModel {
             // Immediately request the current count, in case it has
             // changed since we were last connected.
             if let clicks = try? await counter.numberOfClicks {
-                self.count = clicks
+                count = clicks
             }
         case .cancelled:
             statusMessage = "Done"
             errorMessage = ""
         case .waiting:
             statusMessage = "Waiting to reconnect..."
-            break
         case .failed(let error):
             statusMessage = "Connection lost"
             errorMessage = error.localizedDescription

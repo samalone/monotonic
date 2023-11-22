@@ -1,8 +1,8 @@
-import XCTest
 import Distributed
-import WebSocketActors
 import Logging
 @testable import Monotonic
+import WebSocketActors
+import XCTest
 
 actor Model: LocalModel {
     var count: Int = 0
@@ -60,7 +60,6 @@ final class MonotonicTests: XCTestCase {
         XCTAssertEqual(c12, 2)
         let c22 = await model2.count
         XCTAssertEqual(c22, 2)
-        
     }
     
     func testRemote() async throws {

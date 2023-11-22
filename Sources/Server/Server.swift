@@ -1,20 +1,19 @@
 //
 //  Server.swift
-//  
+//
 //
 //  Created by Stuart A. Malone on 10/30/23.
 //
 
-import Foundation
+import ArgumentParser
 import Distributed
+import Foundation
+import Logging
 import Monotonic
 import WebSocketActors
-import Logging
-import ArgumentParser
 
 @main
 struct Server: AsyncParsableCommand {
-    
     @Option(name: .shortAndLong, help: "The host name or IP address to listen on.")
     var host: String = "0.0.0.0"
     

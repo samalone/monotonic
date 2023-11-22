@@ -5,8 +5,8 @@
 //  Created by Stuart A. Malone on 11/16/23.
 //
 
-import Foundation
 import Distributed
+import Foundation
 import WebSocketActors
 
 public protocol LocalModel {

@@ -5,8 +5,8 @@
 //  Created by Stuart A. Malone on 10/30/23.
 //
 
-import SwiftUI
 import Monotonic
+import SwiftUI
 import WebSocketActors
 
 /// Shared instance of the sample websocket actor system used in this step.
@@ -19,8 +19,7 @@ import WebSocketActors
 /// As this is just a sample actor system implementation, it allows itself to be so aggressive about crashing.
 /// In a solid implementation one might want to retry connecting and be a bit more lenient or even lazy about
 /// connection establishment.
-//let webSocketSystem = try! WebSocketActorSystem(mode: .clientFor(host: "localhost", port: 8888))
-
+// let webSocketSystem = try! WebSocketActorSystem(mode: .clientFor(host: "localhost", port: 8888))
 
 @main
 struct MonotonicAppApp: App {

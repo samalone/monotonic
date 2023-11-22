@@ -1,8 +1,8 @@
 import Distributed
 import WebSocketActors
 
-extension ActorIdentity {
-    public static let counter: ActorIdentity = "counter"
+public extension ActorIdentity {
+    static let counter: ActorIdentity = "counter"
 }
 
 public distributed actor Counter {
@@ -11,17 +11,14 @@ public distributed actor Counter {
     var _numberOfClicks = 0
     var monitors: Set<CountMonitor> = []
     
-    
     public distributed var numberOfClicks: Int {
-        get {
-            _numberOfClicks
-        }
+        _numberOfClicks
     }
     
     public init(actorSystem: ActorSystem, numberOfClicks: Int = 0) {
         actorSystem.logger.trace("Counter.init")
         self.actorSystem = actorSystem
-        self._numberOfClicks = numberOfClicks
+        _numberOfClicks = numberOfClicks
     }
     
     deinit {
@@ -53,7 +50,7 @@ public distributed actor Counter {
     }
     
     public distributed func currentCount() -> Int {
-        return numberOfClicks
+        numberOfClicks
     }
     
     func broadcastClicks(clicks: Int) async {
@@ -73,5 +70,4 @@ public distributed actor Counter {
         }
         actorSystem.logger.trace("broadcast complete")
     }
-    
 }

@@ -13,9 +13,10 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "Monotonic",
-            targets: ["Monotonic"]),
+            targets: ["Monotonic"]
+        ),
         .executable(name: "Server",
-                    targets: ["Server", "Monotonic"])
+                    targets: ["Server", "Monotonic"]),
     ],
     dependencies: [
         .package(url: "https://github.com/samalone/websocket-actor-system.git", branch: "main"),
@@ -30,7 +31,7 @@ let package = Package(
                 .product(name: "WebSocketActors", package: "websocket-actor-system"),
             ],
             swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"])
+                .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"]),
             ]
         ),
         .executableTarget(
@@ -41,14 +42,14 @@ let package = Package(
 //                .product(name: "DistributedCluster", package: "swift-distributed-actors"),
             ],
             swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"])
+                .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"]),
             ]
         ),
         .testTarget(
             name: "MonotonicTests",
             dependencies: ["Monotonic"],
             swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"])
+                .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"]),
             ]
         ),
     ]

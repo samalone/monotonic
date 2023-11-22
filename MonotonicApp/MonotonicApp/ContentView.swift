@@ -5,8 +5,8 @@
 //  Created by Stuart A. Malone on 10/30/23.
 //
 
-import SwiftUI
 import Monotonic
+import SwiftUI
 
 @MainActor
 struct ContentView: View {
