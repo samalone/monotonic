@@ -22,17 +22,22 @@ struct Server: AsyncParsableCommand {
 
     mutating func run() async throws {
         var logger = Logger(label: "Server")
-        logger.logLevel = .debug
+        logger.logLevel = .trace
 
         let address = ServerAddress(scheme: .insecure, host: host, port: port)
-        let system = try! await WebSocketActorSystem(mode: .server(at: address), logger: logger)
-
-        _ = system.makeLocalActor(id: .counter) {
-            Counter(actorSystem: system)
+        do {
+            let system = try await WebSocketActorSystem(mode: .server(at: address), logger: logger)
+            
+            _ = system.makeLocalActor(id: .counter) {
+                Counter(actorSystem: system)
+            }
+            
+            while true {
+                try await Task.sleep(for: .seconds(1_000_000))
+            }
         }
-
-        while true {
-            try await Task.sleep(for: .seconds(1_000_000))
+        catch {
+            logger.error("\(error)")
         }
     }
 }

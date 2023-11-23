@@ -5,7 +5,7 @@
 //  Created by Stuart A. Malone on 10/30/23.
 //
 
-import Foundation
+import Logging
 import Monotonic
 import SwiftUI
 import WebSocketActors
@@ -24,7 +24,10 @@ final class Model: LocalModel {
             if let system = _system {
                 return system
             }
-            let system = try! await WebSocketActorSystem(mode: .client(of: ServerAddress(scheme: .insecure, host: "ravana.local", port: 8888)))
+            var logger = Logger(label: "client")
+            logger.logLevel = .trace
+            let system = try! await WebSocketActorSystem(mode: .client(of: ServerAddress(scheme: .insecure, host: "ravana.local", port: 8888)),
+                logger: logger)
             _system = system
             system.monitor = updateConnectionStatus(status:)
             return system
