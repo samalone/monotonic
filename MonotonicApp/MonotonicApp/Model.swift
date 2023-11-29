@@ -26,8 +26,13 @@ final class Model: LocalModel {
             }
             var logger = Logger(label: "client")
             logger.logLevel = .trace
-            let system = try! await WebSocketActorSystem(mode: .client(of: ServerAddress(scheme: .insecure, host: "ravana.local", port: 8888)),
-                logger: logger)
+            let system = WebSocketActorSystem(logger: logger)
+            do {
+                try await system.connectClient(to: ServerAddress(scheme: .insecure, host: "ravana.local", port: 8888))
+            }
+            catch {
+                statusMessage = error.localizedDescription
+            }
             _system = system
             system.monitor = updateConnectionStatus(status:)
             return system

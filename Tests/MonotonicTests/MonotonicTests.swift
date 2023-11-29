@@ -20,11 +20,11 @@ final class MonotonicTests: XCTestCase {
     override func setUp() async throws {
         logger = Logger(label: "\(name) server")
         logger.logLevel = .trace
-        server = try await WebSocketActorSystem(mode: .server(at: serverAddress),
-                                                id: NodeIdentity(id: "server"),
-                                                logger: logger)
+        server = WebSocketActorSystem(id: NodeIdentity(id: "server"),
+                                      logger: logger)
+        let manager = try await server.runServer(at: serverAddress)
         // Now that the server is started, we can find out what port number it is using.
-        serverAddress = try await server.address()
+        serverAddress = try await manager.address()
     }
 
     override func tearDown() async throws {
@@ -70,8 +70,10 @@ final class MonotonicTests: XCTestCase {
             Counter(actorSystem: server)
         }
 
-        let client1 = try await WebSocketActorSystem(mode: .client(of: serverAddress))
-        let client2 = try await WebSocketActorSystem(mode: .client(of: serverAddress))
+        let client1 = WebSocketActorSystem()
+        try await client1.connectClient(to: serverAddress)
+        let client2 = WebSocketActorSystem()
+        try await client2.connectClient(to: serverAddress)
 
         // This is the correct way to resolve a remote actor.
         let counter1 = try Counter.resolve(id: .counter, using: client1)

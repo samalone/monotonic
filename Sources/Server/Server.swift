@@ -26,12 +26,13 @@ struct Server: AsyncParsableCommand {
 
         let address = ServerAddress(scheme: .insecure, host: host, port: port)
         do {
-            let system = try await WebSocketActorSystem(mode: .server(at: address), logger: logger)
-            
+            let system = WebSocketActorSystem(logger: logger)
+            try await system.runServer(at: address)
+
             _ = system.makeLocalActor(id: .counter) {
                 Counter(actorSystem: system)
             }
-            
+
             while true {
                 try await Task.sleep(for: .seconds(1_000_000))
             }
