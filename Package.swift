@@ -19,7 +19,7 @@ let package = Package(
                     targets: ["Server", "Monotonic"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/samalone/websocket-actor-system.git", branch: "main"),
+        .package(url: "https://github.com/samalone/websocket-actor-system.git", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.0"),
         .package(url: "https://github.com/realm/SwiftLint", from: "0.54.0"),
     ],

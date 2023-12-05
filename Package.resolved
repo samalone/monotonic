@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/samalone/websocket-actor-system.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "ff2282a7119d58d90a218b98631195595478aca0"
+        "revision" : "bfd8d625ee460905caaa0764105dc93802694838",
+        "version" : "1.0.1"
       }
     },
     {
