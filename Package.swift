@@ -21,7 +21,6 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/samalone/websocket-actor-system.git", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.0"),
-        .package(url: "https://github.com/realm/SwiftLint", from: "0.54.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -30,11 +29,7 @@ let package = Package(
             name: "Monotonic",
             dependencies: [
                 .product(name: "WebSocketActors", package: "websocket-actor-system"),
-            ],
-            swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"]),
-            ],
-            plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]
+            ]
         ),
         .executableTarget(
             name: "Server",
@@ -44,16 +39,14 @@ let package = Package(
             ],
             swiftSettings: [
                 .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"]),
-            ],
-            plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]
+            ]
         ),
         .testTarget(
             name: "MonotonicTests",
             dependencies: ["Monotonic"],
             swiftSettings: [
                 .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"]),
-            ],
-            plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]
+            ]
         ),
     ]
 )
