@@ -29,6 +29,9 @@ let package = Package(
             name: "Monotonic",
             dependencies: [
                 .product(name: "WebSocketActors", package: "websocket-actor-system"),
+            ],
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-validate-tbd-against-ir=none"]),
             ]
         ),
         .executableTarget(
